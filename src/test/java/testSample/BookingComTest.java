@@ -1,5 +1,6 @@
 package testSample;
 
+import baseFolder.BaseTest;
 import handlers.WaitHandler;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class BookingComTest {
+public class BookingComTest extends BaseTest {
     public static void main(String[] args) throws MalformedURLException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability(CapabilityType.BROWSER_NAME, "Chrome");

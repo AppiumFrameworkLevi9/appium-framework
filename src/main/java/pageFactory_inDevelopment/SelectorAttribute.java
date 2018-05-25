@@ -1,3 +1,5 @@
+package pageFactory_inDevelopment;
+
 public final class SelectorAttribute {
 
     private SelectorType type;

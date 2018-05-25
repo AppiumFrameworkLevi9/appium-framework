@@ -1,3 +1,5 @@
+package pageFactory_inDevelopment;
+
 public class PageFactoryConfiguration {
     private IElementsBuilder elementsBuilder;
 

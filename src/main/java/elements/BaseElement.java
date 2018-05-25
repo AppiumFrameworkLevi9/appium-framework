@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public abstract class BaseElement {
-    // TODO: make both variables final
     protected AppiumDriver appiumDriver;
     protected By elementSelector;
 

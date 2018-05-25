@@ -1,3 +1,5 @@
+package pageFactory_inDevelopment;
+
 import elements.*;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
@@ -5,7 +7,6 @@ import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.function.Function;
 
 public class ElementsBuilder implements IElementsBuilder{
     private final HashMap<Type, Object> supportedTypesCatalogue = new HashMap<Type, Object>();
