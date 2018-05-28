@@ -2,24 +2,26 @@ package testSample;
 
 import baseFolder.BaseTest;
 import handlers.WaitHandler;
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.support.PageFactory;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 
 public class BookingComTest extends BaseTest {
-    public static void main(String[] args) throws MalformedURLException {
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability(CapabilityType.BROWSER_NAME, "Chrome");
-        desiredCapabilities.setCapability(CapabilityType.PLATFORM_NAME, "Android");
-        desiredCapabilities.setCapability(CapabilityType.VERSION, "8.0");
-        desiredCapabilities.setCapability("deviceName", "device");
-        desiredCapabilities.setCapability("udid", "ce0317130a9f1f1602");
-        AppiumDriver driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), desiredCapabilities);
-        driver.get("http://booking.com");
+    public static final String PROPERTIES_CSV = "../../src/test/resources/data/Properties1.csv";
+
+    @ParameterizedTest
+    @CsvFileSource(resources = PROPERTIES_CSV)
+    @BeforeClass
+    public void setUp(String appPackage, String appActivity, String platformAndroid, String deviceNameAndroid, String url, String platformName, String platformVersion, String platfromIOS, String deviceNameIOS, String automationName) throws IOException {
+        super.setUp(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, platformName, platformVersion, platfromIOS, deviceNameIOS, automationName);
+    }
+
+    @Test
+    public void BookingComTest() {
 
         BookingComPage page = PageFactory.initElements(driver, BookingComPage.class);
 

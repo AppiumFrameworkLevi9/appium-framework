@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.Arguments;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -12,21 +13,21 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.Stream;
+
+import static baseFolder.BasePage.getValueFromProperties;
 
 public class BaseTest {
-
     protected AppiumDriver driver;
     private String iOSDevice;
     private String url;
     DesiredCapabilities capabilities;
 
-    private static final String ANDROID = "Android";
-    private static final String IOS = "iOS";
     private static final String NOT_RECOGNIZED = "Platform is not recognized";
     private static final String USER_DIR = "user.dir";
     private static final String OBJECTIVE_C_EXTENSION = "//objC.txt";
-    private static final String OBJECTIVE_C_APP = "";
-    private static final String SWIFT_APP = "";
+    private static final String OBJECTIVE_C_APP = "";   // Add Objective-C ipa name
+    private static final String SWIFT_APP = ""; // Add Swift ipa name
 
     public void setUp(String appPackage, String appActivity, String platformAndroid, String deviceNameAndroid, String url, String platformName, String platformVersion, String platformIOS, String deviceNameIOS, String automationName) throws IOException {
         definePlatform(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, platformName, platformVersion, platformIOS, deviceNameIOS, automationName);
@@ -34,9 +35,9 @@ public class BaseTest {
 
     public void definePlatform(String appPackage, String appActivity, String platformAndroid, String deviceNameAndroid, String url, String platformName, String platformVersion, String platformIOS, String deviceNameIOS, String automationName) throws MalformedURLException {
         this.url = url;
-        if(verifyPlatform().equals(ANDROID)){
+        if(verifyPlatform().equals(getValueFromProperties("APP_ANDROID"))){
             setAndroidCapabilities(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, automationName);
-        }else if(verifyPlatform().equals(IOS)){
+        }else if(verifyPlatform().equals(getValueFromProperties("APP_IOS"))){
             setiPhoneCapabilities(platformIOS, platformVersion, platformName, deviceNameIOS, url, automationName);
         }else{
             System.out.println(verifyPlatform());
@@ -45,9 +46,9 @@ public class BaseTest {
 
     public static String verifyPlatform() {
         if(Platform.getCurrent().is(Platform.LINUX) || Platform.getCurrent().is(Platform.WIN10) || Platform.getCurrent().is(Platform.ANDROID) || Platform.getCurrent().is(Platform.WINDOWS)) {
-            return ANDROID;
+            return getValueFromProperties("APP_ANDROID");
         } else if (Platform.getCurrent().is(Platform.EL_CAPITAN) || Platform.getCurrent().is(Platform.SIERRA) || Platform.getCurrent().is(Platform.MAC)) {
-            return IOS;
+            return getValueFromProperties("APP_IOS");
         } else {
             return NOT_RECOGNIZED;
         }
@@ -79,7 +80,7 @@ public class BaseTest {
     }
 
     public String returnTheApp(){
-        if(verifyPlatform().equals(ANDROID)){
+        if(verifyPlatform().equals(getValueFromProperties("APP_ANDROID"))){
             return "";
         }else{
             String workingDir = System.getProperty(USER_DIR);
