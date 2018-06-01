@@ -5,7 +5,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.Arguments;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -13,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.stream.Stream;
 
 import static baseFolder.BasePage.getValueFromProperties;
 
@@ -29,16 +27,12 @@ public class BaseTest {
     private static final String OBJECTIVE_C_APP = "";   // Add Objective-C ipa name
     private static final String SWIFT_APP = ""; // Add Swift ipa name
 
-    public void setUp(String appPackage, String appActivity, String platformAndroid, String deviceNameAndroid, String url, String platformName, String platformVersion, String platformIOS, String deviceNameIOS, String automationName) throws IOException {
-        definePlatform(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, platformName, platformVersion, platformIOS, deviceNameIOS, automationName);
-    }
-
-    public void definePlatform(String appPackage, String appActivity, String platformAndroid, String deviceNameAndroid, String url, String platformName, String platformVersion, String platformIOS, String deviceNameIOS, String automationName) throws MalformedURLException {
+    public void setUp(String appPackage, String appActivity, String platformAndroid, String deviceNameAndroid, String url, String platformName, String platformVersion, String platformIOS, String deviceNameIOS, String browserName) throws IOException {
         this.url = url;
         if(verifyPlatform().equals(getValueFromProperties("APP_ANDROID"))){
-            setAndroidCapabilities(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, automationName);
+            setAndroidCapabilities(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, browserName);
         }else if(verifyPlatform().equals(getValueFromProperties("APP_IOS"))){
-            setiPhoneCapabilities(platformIOS, platformVersion, platformName, deviceNameIOS, url, automationName);
+            setiPhoneCapabilities(platformIOS, platformVersion, platformName, deviceNameIOS, url, browserName);
         }else{
             System.out.println(verifyPlatform());
         }
@@ -54,27 +48,27 @@ public class BaseTest {
         }
     }
 
-    public void setAndroidCapabilities(String appPackage, String appActivity, String platform, String deviceName, String url, String automationName) throws MalformedURLException{
+    public void setAndroidCapabilities(String appPackage, String appActivity, String platform, String deviceName, String url, String browserName) throws MalformedURLException{
         capabilities = DesiredCapabilities.android();
         capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, appPackage);
         capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, appActivity);
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, platform);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, automationName);
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60 * 5);
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
 
         driver = new AndroidDriver(new URL(url), capabilities);
     }
 
-    public void setiPhoneCapabilities(String platformIOS, String platformVersion, String platformName, String deviceNameIOS, String url, String automationName) throws MalformedURLException{
+    public void setiPhoneCapabilities(String platformIOS, String platformVersion, String platformName, String deviceNameIOS, String url, String browserName) throws MalformedURLException{
         capabilities = DesiredCapabilities.iphone();
         capabilities.setCapability(MobileCapabilityType.APP, returnTheApp());
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, platformIOS);
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, platformName);
         capabilities.setCapability(MobileCapabilityType.UDID, deviceNameIOS);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, automationName);
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60 * 5);
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
 
         driver = new IOSDriver(new URL(url), this.capabilities);
     }

@@ -7,30 +7,29 @@ import org.testng.annotations.*;
 
 import java.io.IOException;
 
-public class BookingComTest extends BaseTest {
-    private static final String URL = "http://booking.com";
+import static handlers.ActionHandler.goBack;
 
+public class GmailSampleTest extends BaseTest {
     @Parameters({ "appPackage", "appActivity", "platformAndroid", "deviceNameAndroid", "url", "platformName",
             "platformVersion", "platformIOS", "deviceNameIOS", "browserName"})
 
     @BeforeClass
-    public void setUp(@Optional("") String appPackage,
-                      @Optional("") String appActivity,
+    public void setUp(@Optional("com.google.android.gm") String appPackage,
+                      @Optional("com.google.android.gm.ConversationListActivityGmail") String appActivity,
                       @Optional("") String platformAndroid, @Optional("emulator-5554") String deviceNameAndroid,
                       @Optional("http://127.0.0.1:4723/wd/hub") String url, @Optional("") String platformName,
                       @Optional("") String platformVersion, @Optional("") String platformIOS,
-                      @Optional("") String deviceNameIOS, @Optional("Chrome") String browserName) throws IOException {
+                      @Optional("") String deviceNameIOS, @Optional("") String browserName) throws IOException {
         super.setUp(appPackage, appActivity, platformAndroid, deviceNameAndroid, url, platformName, platformVersion, platformIOS, deviceNameIOS, browserName);
     }
 
     @Test
-    public void bookingComTest() {
+    public void gmailTest() {
+        GmailPage page = PageFactory.initElements(driver, GmailPage.class);
 
-        driver.navigate().to(URL);
+        goBack(driver);
 
-        BookingComPage page = PageFactory.initElements(driver, BookingComPage.class);
-
-        page.destination.sendKeys("test");
+        page.search.click();
 
         WaitHandler.waitAdditional(2);
     }

@@ -16,6 +16,7 @@ public class BasePage {
     protected static Properties locators;
     private static final String ANDROID = "Android";
     private static final String IOS = "iOS";
+    private static final String NOT_RECOGNIZED = "Platform is not recognized";
 
     public BasePage(AppiumDriver driver) {
         this.driver = driver;
@@ -28,24 +29,20 @@ public class BasePage {
 
     public static Properties findProperties(String locator) {
 
-        if (os.contentEquals(ANDROID)) {
+        if (locator.equals("APP_ANDROID")) {
 
-            if (locator.startsWith("SAMSUNG") || locator.startsWith("AVD")) {
-                locators = loadProperties("src/test/resources/devices/android_ios_devices");
-            } else if (locator.startsWith("LOG_SCREEN")) {
-                locators = loadProperties("src/test/resources/properties/application_log_labels.properties");
+            if (locator.startsWith("ANDROID")) {
+                locators = loadProperties("src/test/resources/properties/android_device_properties.properties");
             } else {
-                locators = loadProperties("src/test/resources/properties/android_locators.properties");
+                locators = loadProperties("src/test/resources/properties/application_properties.properties");
             }
 
-        } else if (os.contentEquals(IOS)) {
+        } else if (locator.equals("APP_IOS")) {
 
-            if (locator.startsWith("IPHONE")) {
-                locators = loadProperties("src/test/resources/devices/android_ios_devices");
-            } else if (locator.startsWith("LOG_SCREEN")) {
-                locators = loadProperties("src/test/resources/properties/application_log_labels.properties");
+            if (locator.startsWith("IOS")) {
+                locators = loadProperties("src/test/resources/properties/ios_device_properties.properties");
             } else {
-                locators = loadProperties("src/test/resources/properties/ios_locators.properties");
+                locators = loadProperties("src/test/resources/properties/application_properties.properties");
             }
 
         } else {

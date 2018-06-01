@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Mobile tests for Improve Digital"  verbose="1" parallel="false">
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+	</listeners>
+	
+	<test name="SamsungGalaxyS4" junit="false" preserve-order="true">
+	    <parameter name="browserName" value="" />
+	    <parameter name="platformIOS" value="" />
+	    <parameter name="platformName" value="" />
+	    <parameter name="platformVersion" value="" />
+	    <parameter name="deviceNameIOS" value="" />
+	    <parameter name="url" value="http://127.0.0.1:4723/wd/hub" />
+	    <parameter name="appPackage" value="" />
+	    <parameter name="appActivity" value="" />
+	    <parameter name="platformAndroid" value="Android"/>
+	    <parameter name="deviceNameAndroid" value="emulator-5554"/>
+	    <classes>
+	          
+			<class name="testSample.BookingComTest"></class>
+
+	    </classes>
+	</test>	
+</suite>

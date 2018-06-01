@@ -9,11 +9,12 @@ import org.openqa.selenium.ScreenOrientation;
 import java.time.Duration;
 
 import static baseFolder.BasePage.getValueFromProperties;
+import static baseFolder.BaseTest.verifyPlatform;
 
 public class ActionHandler {
     public String os;
 
-    public void swipeUp(AppiumDriver driver) {
+    public static void swipeUp(AppiumDriver driver) {
         Dimension size = driver.manage().window().getSize();
         int startX = size.height / 2;
         int startY = (int) (size.height * 0.8);
@@ -23,7 +24,7 @@ public class ActionHandler {
         swipe.perform();
     }
 
-    public void swipeDown(AppiumDriver driver) {
+    public static void swipeDown(AppiumDriver driver) {
         Dimension size = driver.manage().window().getSize();
         int startX = size.height / 2;
         int startY = (int) (size.height * 0.2);
@@ -33,19 +34,23 @@ public class ActionHandler {
         swipe.perform();
     }
 
-    public void rotateToLandscapeMode(AppiumDriver driver) {
+    public static String getScreenOrientation(AppiumDriver driver) {
+        return driver.getOrientation().value();
+    }
+
+    public static void rotateToLandscapeMode(AppiumDriver driver) {
         ((Rotatable) driver).rotate(ScreenOrientation.LANDSCAPE);
     }
 
-    public void rotateToPortraitMode(AppiumDriver driver) {
+    public static void rotateToPortraitMode(AppiumDriver driver) {
         ((Rotatable) driver).rotate(ScreenOrientation.PORTRAIT);
     }
 
-    public void goBack(AppiumDriver driver) {
-        if (os.equals(getValueFromProperties("APP_ANDROID"))) {
+    public static void goBack(AppiumDriver driver) {
+        if (verifyPlatform().equals(getValueFromProperties("APP_ANDROID"))) {
             driver.navigate().back();
 
-        } else if (os.equals(getValueFromProperties("APP_IOS"))) {
+        } else if (verifyPlatform().equals(getValueFromProperties("APP_IOS"))) {
             driver.findElementByXPath(getValueFromProperties("IOS_BACK_BUTTON")).click();
         }
     }
